@@ -39,6 +39,7 @@ namespace PositioningServer.ConnectionHandler
                 listener.BeginAccept(
                        new AsyncCallback(AcceptCallback),
                        listener);
+
                 /*while (true)
                 {
                     // Set the event to nonsignaled state.  
