@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PositioningServer
+namespace PositioningServer.Common.Interface
 {
-    class Program
+    interface IConnectionHandler
     {
-        static void Main(string[] args)
-        {
-        }
+        void Update();
     }
 }
