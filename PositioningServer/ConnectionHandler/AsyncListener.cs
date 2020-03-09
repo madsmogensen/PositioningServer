@@ -1,21 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 
 namespace PositioningServer.ConnectionHandler
 {
-    class AsyncListener
+    public sealed class AsyncListener
     {
-        // Thread signal.  
-        public static ManualResetEvent allDone = new ManualResetEvent(false);
+        // Thread signal.
+        public ManualResetEvent allDone = new ManualResetEvent(false);
+        private static readonly AsyncListener instance = new AsyncListener();
 
-        public AsyncListener()
+        static AsyncListener()
         {
+        }
+
+        private AsyncListener()
+        {
+        }
+
+        public static AsyncListener Instance {
+            get {
+                return instance;
+            }
         }
 
         public void StartListening()
@@ -23,7 +31,8 @@ namespace PositioningServer.ConnectionHandler
             // Establish the local endpoint for the socket.  
             // The DNS name of the computer  
             // running the listener is "host.contoso.com".
-            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
+            IPHostEntry ipHostInfo = Dns.GetHostEntry("localhost");
+            //IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
 
@@ -36,24 +45,24 @@ namespace PositioningServer.ConnectionHandler
             {
                 listener.Bind(localEndPoint);
                 listener.Listen(100);
-                listener.BeginAccept(
+                /*listener.BeginAccept(
                        new AsyncCallback(AcceptCallback),
-                       listener);
+                       listener);*/
 
-                /*while (true)
+                while (true)
                 {
                     // Set the event to nonsignaled state.  
                     allDone.Reset();
 
                     // Start an asynchronous socket to listen for connections.  
-                    Console.WriteLine("Waiting for a connection...");
+                    System.Diagnostics.Debug.WriteLine("Waiting for a connection...");
                     listener.BeginAccept(
                         new AsyncCallback(AcceptCallback),
                         listener);
 
                     // Wait until a connection is made before continuing.  
                     allDone.WaitOne();
-                }*/
+                }
 
             }
             catch (Exception e)
@@ -62,7 +71,7 @@ namespace PositioningServer.ConnectionHandler
             }
         }
 
-        public static void AcceptCallback(IAsyncResult ar)
+        public void AcceptCallback(IAsyncResult ar)
         {
             // Signal the main thread to continue.  
             allDone.Set();
@@ -78,7 +87,7 @@ namespace PositioningServer.ConnectionHandler
                 new AsyncCallback(ReadCallback), state);
         }
 
-        public static void ReadCallback(IAsyncResult ar)
+        public void ReadCallback(IAsyncResult ar)
         {
             String content = String.Empty;
 
@@ -117,7 +126,7 @@ namespace PositioningServer.ConnectionHandler
             }
         }
 
-        private static void Send(Socket handler, String data)
+        private void Send(Socket handler, String data)
         {
             // Convert the string data to byte data using ASCII encoding.  
             byte[] byteData = Encoding.ASCII.GetBytes(data);

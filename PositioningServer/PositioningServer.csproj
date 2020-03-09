@@ -47,6 +47,7 @@
     <Compile Include="ConnectionHandler\AsyncListener.cs" />
     <Compile Include="ConnectionHandler\MobileConnectionHandler.cs" />
     <Compile Include="ConnectionHandler\StateObject.cs" />
+    <Compile Include="ConnectionHandler\TCPConnection.cs" />
     <Compile Include="Core\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace PositioningServer.Common.Interface
 {
-    interface IConnectionHandler
+    public interface IConnectionHandler
     {
+        void Instantiate();
         void Update();
     }
 }

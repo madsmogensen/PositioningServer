@@ -7,27 +7,30 @@ using System.Threading.Tasks;
 
 namespace PositioningServer
 {
-    class Program
+    public static class Program
     {
 
-        private static IEnumerable<IConnectionHandler> ConnectionHandlers = RegisterIConnectionHandlerServices();
-
-
+        private static IEnumerable<IConnectionHandler> connectionHandlers = RegisterIConnectionHandlerServices();
 
         static void Main(string[] args)
         {
+
+            foreach (IConnectionHandler service in connectionHandlers) { service.Instantiate(); }
+
+            int i = 0;
             while (true)
             {
                 Update();
-                break;
+                i++;
+                //if (i > 10) { Console.ReadLine(); break; }
             }
         }
 
         private static void Update()
         {
-            foreach(IConnectionHandler con in ConnectionHandlers)
+            foreach (IConnectionHandler service in connectionHandlers)
             {
-                con.Update();
+                service.Update();
             }
         }
 
@@ -40,6 +43,5 @@ namespace PositioningServer
                 .Select(x => Activator.CreateInstance(x) as IConnectionHandler);
             return all;
         }
-
     }
 }

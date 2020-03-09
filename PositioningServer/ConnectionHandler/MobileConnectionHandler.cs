@@ -1,18 +1,30 @@
 ﻿using PositioningServer.Common.Interface;
+using System;
+using System.Threading;
 
 namespace PositioningServer.ConnectionHandler
 {
     class MobileConnectionHandler : IConnectionHandler
     {
-        private AsyncListener listener = null;
+        //private AsyncListener listener = AsyncListener.Instance;
+
+        public void Instantiate()
+        {
+            //Thread listenerThread = new Thread(listener.StartListening);
+            //listenerThread.Start();
+            TCPConnection server = new TCPConnection();
+        }
 
         public void Update()
         {
-            if (listener == null)
+            /*if (listener is null)
             {
-                listener = new AsyncListener();
+                //Console.WriteLine("Listener is null :(");
             }
-            listener.StartListening();
+            else
+            {
+                //Console.WriteLine("Listener is YAY");
+            }*/
         }
     }
 }
