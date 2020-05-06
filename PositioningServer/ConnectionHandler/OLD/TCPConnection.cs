@@ -19,13 +19,8 @@ namespace PositioningServer.ConnectionHandler
         private void StartServer()
         {
             IPHostEntry host = Dns.GetHostEntry("127.0.0.1");
-            foreach (IPAddress address in host.AddressList)
-            {
-                Console.WriteLine(address.ToString());
-            }
             //IPAddress ipAddress = host.AddressList[0];
             IPAddress ipAddress = host.AddressList[1];
-            Console.WriteLine(ipAddress.ToString());
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
             Socket listener = null;
             try
@@ -34,7 +29,8 @@ namespace PositioningServer.ConnectionHandler
                 listener.Bind(localEndPoint);
                 listener.Listen(100);
 
-                Console.WriteLine("Waiting for a connection");
+                Console.WriteLine("Waiting for a connection on ip:port");
+                Console.WriteLine(ipAddress.ToString() + ":" + localEndPoint.Port);
             }
             catch (Exception e)
             {

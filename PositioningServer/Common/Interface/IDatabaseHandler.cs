@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PositioningServer.Common.Interface
 {
-    public interface IConnectionHandler
+    public interface IDatabaseHandler
     {
         void update(List<Client> clients, List<Setup> setups);
     }

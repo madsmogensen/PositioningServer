@@ -43,16 +43,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Data\Anchor.cs" />
+    <Compile Include="Common\Data\Client.cs" />
+    <Compile Include="Common\Data\Coordinate.cs" />
+    <Compile Include="Common\Data\Node.cs" />
+    <Compile Include="Common\Data\Setup.cs" />
     <Compile Include="Common\Interface\IConnectionHandler.cs" />
-    <Compile Include="ConnectionHandler\AsyncListener.cs" />
+    <Compile Include="Common\Interface\IDatabaseHandler.cs" />
+    <Compile Include="ConnectionHandler\OLD\AsyncListener.cs" />
     <Compile Include="ConnectionHandler\MobileConnectionHandler.cs" />
-    <Compile Include="ConnectionHandler\StateObject.cs" />
-    <Compile Include="ConnectionHandler\TCPConnection.cs" />
+    <Compile Include="ConnectionHandler\OLD\StateObject.cs" />
+    <Compile Include="ConnectionHandler\OLD\TCPConnection.cs" />
+    <Compile Include="ConnectionHandler\UDPConnection.cs" />
+    <Compile Include="ConnectionHandler\UDPIncoming.cs" />
+    <Compile Include="ConnectionHandler\UDPOutgoing.cs" />
     <Compile Include="Core\Program.cs" />
+    <Compile Include="DBHandler\DBHandler.cs" />
+    <Compile Include="DBHandler\PrototypeDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="DBHandler\uwb_GoCart.csv" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Processor\" />
