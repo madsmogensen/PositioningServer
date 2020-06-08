@@ -13,9 +13,9 @@ namespace PositioningServer.ConnectionHandler
         UDPIncoming incoming = new UDPIncoming();
         UDPOutgoing outgoing = new UDPOutgoing();
 
-        public void update(List<Client> clients, List<Setup> setups)
+        public void update(List<Client> clients, SetupFacade setupFacade)
         {
-            incoming.update(clients, setups);
+            incoming.update(clients, setupFacade);
             outgoing.update(clients);
         }
 

@@ -6,16 +6,34 @@ using System.Threading.Tasks;
 
 namespace PositioningServer.Common.Data
 {
-    public class Node
+    public partial class SetupFacade
     {
-
-        public string id { get; set; }
-        public List<Coordinate> coordinates { get; set; } = new List<Coordinate>();
-        public int indexSent { get; set; } = 0;
-
-        public Node(string id)
+        protected class Node : Unit
         {
-            this.id = id;
+
+
+            private List<Coordinate> coordinates { get; set; } = new List<Coordinate>();
+
+            public Node(string id)
+            {
+                this.id = id;
+            }
+
+            public override void coordinate(Coordinate coordinate)
+            {
+                coordinates.Add(coordinate);
+            }
+
+            internal override int size()
+            {
+                return coordinates.Count;
+            }
+
+            internal override Coordinate getCoordinate(int i)
+            {
+                return coordinates[i];
+            }
+
         }
     }
 }

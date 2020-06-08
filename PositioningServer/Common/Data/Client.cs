@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PositioningServer.Common.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -11,9 +12,12 @@ namespace PositioningServer.Common.Data
     {
 
         public IPEndPoint connection { get; set; }
-        public Setup setup { get; set; } = null;
+        //public Setup setup { get; set; } = null;
+        public string setup { get; set; } = "";
         public string request { get; set; } = "";
         public DateTime lastUpdate { get; set; } = DateTime.Now;
+
+        List<IUnitIterator> iterators = new List<IUnitIterator>();
 
 
         public Client(IPEndPoint connection)
@@ -25,7 +29,7 @@ namespace PositioningServer.Common.Data
         {
             if (setup == null) { Console.WriteLine("setup is null?"); } else
             {
-                Console.WriteLine("Setup: " + setup.id); //Currently toStringDebug is only called if IPEndPoint is null in UDPOutgoing
+                Console.WriteLine("Setup: " + setup); //Currently toStringDebug is only called if IPEndPoint is null in UDPOutgoing
             }
             Console.WriteLine("Request: " + this.request);
             /*foreach (Node node in this.setup.nodesClean)
@@ -35,6 +39,17 @@ namespace PositioningServer.Common.Data
                     Console.WriteLine("Coordinate: " + coordinate.ToString());
                 }
             }*/
+        }
+
+        public List<IUnitIterator> getSetup()
+        {
+            if (iterators.Count == 0)
+            {
+                iterators.Add(SetupFacade.Instance.getSetup(setup).getIterator("raw"));
+                iterators.Add(SetupFacade.Instance.getSetup(setup).getIterator("clean"));
+                iterators.Add(SetupFacade.Instance.getSetup(setup).getIterator("anchors"));
+            }
+            return iterators;
         }
     }
 }

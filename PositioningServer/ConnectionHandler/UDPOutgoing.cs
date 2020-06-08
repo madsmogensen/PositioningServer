@@ -1,4 +1,5 @@
 ﻿using PositioningServer.Common.Data;
+using PositioningServer.Common.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace PositioningServer.ConnectionHandler
         {
             IPEndPoint test = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 11000);
             Client testClient = new Client(test);
-            testClient.setup = new Setup("test");
+            testClient.setup = "test";
             testClient.request = "CLIENT;REQUEST:From File";
             SenderThread sender = new SenderThread(testClient);
             Thread t = new Thread(new ThreadStart(sender.send));
@@ -52,7 +53,7 @@ namespace PositioningServer.ConnectionHandler
                     }
                 }
                 timeElapsed = (DateTime.Now.Ticks/10000) - updateStarted;
-                if (timeElapsed > 2000) //if blocked for more than 5 seconds, break
+                if (timeElapsed > 5000) //if blocked for more than 5 seconds, break
                 {
                     foreach (Thread t in threadPool)
                     {
@@ -79,28 +80,32 @@ namespace PositioningServer.ConnectionHandler
         {
             IPEndPoint endPoint = client.connection;
             if (endPoint == null) { /*printDebug(client);*/ return; } //skip debugging clients where endPoint is null
-            if (client.setup == null) { return; } //skip clients without a setup
+            if (client.setup == "") { return; } //skip clients without a setup
 
             List<byte[]> dataToSend = new List<byte[]>();
-            foreach (Node node in client.setup.nodesClean)
+
+            foreach (IUnitIterator iterator in client.getSetup())
             {
-                for (int i = node.indexSent; i < node.coordinates.Count; i++ )
+                foreach (IUnit unit in iterator.getUnits())
                 {
-                    Coordinate nextCoordinate = node.coordinates[i];
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append(node.id + ";");
-                    sb.Append(nextCoordinate.x + ";");
-                    sb.Append(nextCoordinate.y + ";");
-                    sb.Append(nextCoordinate.z + ";");
-                    sb.Append(nextCoordinate.dateTime.ToString().Replace(".", ":") + ".");
-                    for (int j = nextCoordinate.dateTime.Millisecond.ToString().Length; j < 3; j++) { sb.Append("0"); }
-                    sb.Append(nextCoordinate.dateTime.Millisecond);
-                    //Console.WriteLine(i + " - " + sb.ToString());
-                    byte[] coordinateBuffer = Encoding.ASCII.GetBytes(sb.ToString());
-                    dataToSend.Add(coordinateBuffer);
-                    node.indexSent = i+1;
+                    for (int i = iterator.getIndex(); i < unit.size(); i++)
+                    {
+                        iterator.next();
+                        Coordinate nextCoordinate = unit.getCoordinate(i);
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append(unit.getId() + ";");
+                        sb.Append(nextCoordinate.x + ";");
+                        sb.Append(nextCoordinate.y + ";");
+                        sb.Append(nextCoordinate.z + ";");
+                        sb.Append(nextCoordinate.dateTime.ToString().Replace(".", ":") + ".");
+                        for (int j = nextCoordinate.dateTime.Millisecond.ToString().Length; j < 3; j++) { sb.Append("0"); }
+                        sb.Append(nextCoordinate.dateTime.Millisecond);
+                        //Console.WriteLine(i + " - " + sb.ToString());
+                        byte[] coordinateBuffer = Encoding.ASCII.GetBytes(sb.ToString());
+                        dataToSend.Add(coordinateBuffer);
+                    }
                 }
-            }   
+            }
 
             foreach (byte[] sendBuffer in dataToSend)
             {

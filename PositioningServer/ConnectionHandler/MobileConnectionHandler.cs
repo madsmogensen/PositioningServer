@@ -16,9 +16,9 @@ namespace PositioningServer.ConnectionHandler
             server = new UDPConnection();
         }
 
-        public void update(List<Client> clients, List<Setup> setups)
+        public void update(List<Client> clients, SetupFacade setupFacade)
         {
-            server.update(clients, setups);
+            server.update(clients, setupFacade);
         }
     }
 }

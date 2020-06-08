@@ -1,4 +1,5 @@
 ﻿using PositioningServer.Common.Data;
+using PositioningServer.Common.Interface;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,15 +11,14 @@ namespace PositioningServer.DBHandler
 {
     class PrototypeDatabase
     {
-        private List<Setup> dbSetups = new List<Setup>();
-
         public PrototypeDatabase()
         {
+            SetupFacade facade = SetupFacade.Instance;
             using(var reader = new StreamReader(@"C:\Users\mega-\Source\Repos\madsmogensen\PositioningServer\PositioningServer\DBHandler\uwb_GoCart.csv"))
             {
                 if (!reader.EndOfStream) { reader.ReadLine(); } //skip header
-                Setup setup = new Setup("From File");
-                Node newNode = new Node("");
+                ISetup setup = facade.getSetup("From File");
+                
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
@@ -39,28 +39,15 @@ namespace PositioningServer.DBHandler
                     int millisecond = Int32.Parse(time[2].Split('.')[1]);
                     //public DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond); // use .Ticks for long
                     DateTime dateTime = new DateTime(year,month,day,hour,minute,second,millisecond);
-                    newNode.id = id;
+                    IUnit newNode = facade.makeUnit(id);
                     Coordinate coordinate = new Coordinate(x, y, z, dateTime);
-                    newNode.coordinates.Add(coordinate);
+
+                    newNode.coordinate(coordinate);
+                    
+                    setup.addRawNode(newNode);
                     
                 }
-                setup.nodesClean.Add(newNode);
-                dbSetups.Add(setup);
             }
-        }
-
-        public Setup getSetup(string name)
-        {
-            foreach (Setup setup in dbSetups)
-            {
-                if (name.Equals(setup.id)) { setup.lastUsed = DateTime.Now; return setup;  }
-            }
-            return null;
-        }
-
-        public void saveSetup(Setup setup)
-        {
-            dbSetups.Add(setup);
         }
     }
 }

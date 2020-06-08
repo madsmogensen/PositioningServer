@@ -9,6 +9,6 @@ namespace PositioningServer.Common.Interface
 {
     public interface IConnectionHandler
     {
-        void update(List<Client> clients, List<Setup> setups);
+        void update(List<Client> clients, SetupFacade setupFacade);
     }
 }

@@ -10,61 +10,42 @@ namespace PositioningServer.DBHandler
 {
     class DBHandler : IDatabaseHandler
     {
-
-        PrototypeDatabase database = new PrototypeDatabase();
-
         public DBHandler()
         {
-
+            //instantiate the prototypeDatabase, in order to load the track from a file
+            new PrototypeDatabase();
         }
-
-
-        bool firstRun = true;
-        public void update(List<Client> clients, List<Setup> setups)
+            
+        public void update(List<Client> clients, SetupFacade setupFacade)
         {
-            //load the hardcoded setup and put into setups?? //remove later, when clients ask for specific setups by name?
-            if (firstRun) { setups.Add(database.getSetup("From File")); firstRun = false; }
-
             foreach (Client client in clients)
             {
-                if (client.setup == null || client.request != client.setup.id)
+                if (client.setup == null || client.request != client.setup)
                 {
-                    lookup(client, setups);
+                    lookup(client, setupFacade);
                 }
             }
 
             //if setup not used/updated in x time, consume?
-            List<Setup> setupsToRemove = new List<Setup>(); 
-            foreach (Setup setup in setups)
+            List<ISetup> setupsToRemove = new List<ISetup>(); 
+            foreach (ISetup setup in setupFacade.getSetups())
             {
-                if (DateTime.Now.Subtract(setup.lastUsed).TotalHours >= 1)
+                if (DateTime.Now.Subtract(setup.lastUsed()).TotalHours >= 1)
                 {
-                    database.saveSetup(setup);
                     setupsToRemove.Add(setup);
                 }
             }
-            foreach (Setup setup in setupsToRemove)
+            foreach (ISetup setup in setupsToRemove)
             {
-                setups.Remove(setup);
+                setupFacade.removeSetup(setup.id());
             }
         }
 
-        private void lookup(Client client, List<Setup> setups)
+        private void lookup(Client client, SetupFacade setupFacade)
         {
             //simple lookup; setup already loaded in memory
-            foreach (Setup setup in setups)
-            {
-                if (client.request.Equals(setup.id))
-                {
-                    client.setup = setup;
-                    setup.lastUsed = DateTime.Now;
-                    return;
-                }
-            }
-            //database lookup: setup not in (List)setups, look in database
-            Setup temp = database.getSetup(client.request);
-            client.setup = temp;
-            if (temp != null) { setups.Add(temp); }
+            client.setup = setupFacade.getSetup(client.request).id;
+            setupFacade.getSetup(client.setup).lastUsed = DateTime.Now;
         }
     }
 }

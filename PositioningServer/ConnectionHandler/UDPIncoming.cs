@@ -12,17 +12,16 @@ namespace PositioningServer.ConnectionHandler
     public class UDPIncoming
     {
         List<Client> clientRequests = new List<Client>();
-        List<Setup> setupData = new List<Setup>();
 
         public UDPIncoming()
         {
-            ListenerThread listener = new ListenerThread(clientRequests, setupData);
+            ListenerThread listener = new ListenerThread(clientRequests);
             Thread t = new Thread(new ThreadStart(listener.listen));
             t.Start();
         }
 
 
-        public void update(List<Client> clients, List<Setup> setups)
+        public void update(List<Client> clients, SetupFacade setupFacade)
         {
             //Handle client requests
             foreach (Client request in clientRequests)
@@ -42,12 +41,6 @@ namespace PositioningServer.ConnectionHandler
                 if (!consumed) { clients.Add(request); Console.WriteLine("New client connected " + request.connection); }
             }
             clientRequests.Clear();
-            foreach (Setup data in setupData)
-            {
-                //Handle new input data
-            }
-            //put new clients to clients if absent
-            //add new data to setups (create new if absent)
         }
     }
 
@@ -55,7 +48,6 @@ namespace PositioningServer.ConnectionHandler
     {
 
         List<Client> clientRequests;
-        List<Setup> setupData;
 
         private const int listenPort = 11000;
         private UdpClient listener = new UdpClient(listenPort);
@@ -63,10 +55,9 @@ namespace PositioningServer.ConnectionHandler
         private string receivedData;
         private byte[] receiveByteArray;
 
-        public ListenerThread(List<Client> clientRequests, List<Setup> setupData)
+        public ListenerThread(List<Client> clientRequests)
         {
             this.clientRequests = clientRequests;
-            this.setupData = setupData;
         }
 
         public void listen()

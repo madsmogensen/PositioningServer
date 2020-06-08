@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 
 namespace PositioningServer.Common.Interface
 {
-    public interface IDatabaseHandler
+    public interface IUnit
     {
-        void update(List<Client> clients, SetupFacade setupFacade);
+        void coordinate(Coordinate coordinate);
+        int size();
+        Coordinate getCoordinate(int i);
+        string getId();
     }
 }

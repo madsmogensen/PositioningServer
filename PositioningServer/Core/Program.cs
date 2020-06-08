@@ -14,8 +14,8 @@ namespace PositioningServer
         private static IConnectionHandler[] connectionHandlers = RegisterIConnectionHandlerServices();
         private static IDatabaseHandler[] databaseHandlers = RegisterIDatabaseHandlerServices();
         private static List<Client> clients = new List<Client>();
-        private static List<Setup> setups = new List<Setup>();
-
+        private static SetupFacade setupFacade = SetupFacade.Instance;
+            
         static void Main(string[] args)
         {
             //Test case
@@ -23,8 +23,6 @@ namespace PositioningServer
             Client testClient = new Client(testEndPoint);
             testClient.request = "From File";
             clients.Add(testClient);
-
-
 
             while (true)
             {
@@ -36,11 +34,11 @@ namespace PositioningServer
         {
             foreach (IConnectionHandler service in connectionHandlers)
             {
-                service.update(clients, setups);
+                service.update(clients, setupFacade);
             }
             foreach (IDatabaseHandler service in databaseHandlers)
             {
-                service.update(clients, setups);
+                service.update(clients, setupFacade);
             }
         }
 

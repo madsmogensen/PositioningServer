@@ -48,8 +48,16 @@
     <Compile Include="Common\Data\Coordinate.cs" />
     <Compile Include="Common\Data\Node.cs" />
     <Compile Include="Common\Data\Setup.cs" />
+    <Compile Include="Common\Data\SetupFacade.cs" />
+    <Compile Include="Common\Data\SetupList.cs" />
+    <Compile Include="Common\Data\Unit.cs" />
+    <Compile Include="Common\Data\UnitFactory.cs" />
+    <Compile Include="Common\Data\UnitIterator.cs" />
     <Compile Include="Common\Interface\IConnectionHandler.cs" />
     <Compile Include="Common\Interface\IDatabaseHandler.cs" />
+    <Compile Include="Common\Interface\ISetup.cs" />
+    <Compile Include="Common\Interface\IUnit.cs" />
+    <Compile Include="Common\Interface\IUnitIterator.cs" />
     <Compile Include="ConnectionHandler\OLD\AsyncListener.cs" />
     <Compile Include="ConnectionHandler\MobileConnectionHandler.cs" />
     <Compile Include="ConnectionHandler\OLD\StateObject.cs" />
