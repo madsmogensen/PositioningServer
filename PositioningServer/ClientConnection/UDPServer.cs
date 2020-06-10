@@ -10,8 +10,8 @@ namespace PositioningServer.ConnectionHandler
     class UDPConnection
     {
 
-        UDPIncoming incoming = new UDPIncoming();
-        UDPOutgoing outgoing = new UDPOutgoing();
+        private UDPIncoming incoming = new UDPIncoming();
+        private UDPOutgoing outgoing = new UDPOutgoing();
 
         public void update(List<Client> clients, SetupFacade setupFacade)
         {
