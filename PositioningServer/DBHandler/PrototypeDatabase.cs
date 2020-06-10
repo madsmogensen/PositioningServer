@@ -42,7 +42,7 @@ namespace PositioningServer.DBHandler
                     IUnit newNode = facade.makeUnit(id);
                     Coordinate coordinate = new Coordinate(x, y, z, dateTime);
 
-                    newNode.coordinate(coordinate);
+                    newNode.addCoordinate(coordinate);
                     
                     setup.addRawNode(newNode);
                     

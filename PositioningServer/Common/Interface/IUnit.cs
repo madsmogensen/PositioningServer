@@ -9,7 +9,7 @@ namespace PositioningServer.Common.Interface
 {
     public interface IUnit
     {
-        void coordinate(Coordinate coordinate);
+        void addCoordinate(Coordinate coordinate);
         int size();
         Coordinate getCoordinate(int i);
         string getId();

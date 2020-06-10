@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientConnection\MobileConnectionHandler.cs" />
+    <Compile Include="ClientConnection\UDPIncoming.cs" />
+    <Compile Include="ClientConnection\UDPOutgoing.cs" />
+    <Compile Include="ClientConnection\UDPServer.cs" />
     <Compile Include="Common\Data\Anchor.cs" />
     <Compile Include="Common\Data\Client.cs" />
     <Compile Include="Common\Data\Coordinate.cs" />
@@ -58,13 +62,6 @@
     <Compile Include="Common\Interface\ISetup.cs" />
     <Compile Include="Common\Interface\IUnit.cs" />
     <Compile Include="Common\Interface\IUnitIterator.cs" />
-    <Compile Include="ConnectionHandler\OLD\AsyncListener.cs" />
-    <Compile Include="ConnectionHandler\MobileConnectionHandler.cs" />
-    <Compile Include="ConnectionHandler\OLD\StateObject.cs" />
-    <Compile Include="ConnectionHandler\OLD\TCPConnection.cs" />
-    <Compile Include="ConnectionHandler\UDPConnection.cs" />
-    <Compile Include="ConnectionHandler\UDPIncoming.cs" />
-    <Compile Include="ConnectionHandler\UDPOutgoing.cs" />
     <Compile Include="Core\Program.cs" />
     <Compile Include="DBHandler\DBHandler.cs" />
     <Compile Include="DBHandler\PrototypeDatabase.cs" />

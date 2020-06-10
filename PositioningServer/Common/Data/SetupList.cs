@@ -11,7 +11,7 @@ namespace PositioningServer.Common.Data
         private class SetupList
         {
 
-            private Dictionary<String, Setup> setups = new Dictionary<String, Setup>();
+            private Dictionary<string, Setup> setups = new Dictionary<String, Setup>();
 
             private static readonly SetupList instance = new SetupList();
 
@@ -24,11 +24,6 @@ namespace PositioningServer.Common.Data
             public static SetupList Instance()
             {
                 return instance;
-            }
-
-            public void remove(string id)
-            {
-                setups.Remove(id);
             }
 
             public Setup getSetup(String id)
@@ -47,6 +42,11 @@ namespace PositioningServer.Common.Data
                     }
                 }
                 return setups[id];
+            }
+            
+            public void remove(string id)
+            {
+                setups.Remove(id);
             }
 
             public List<Setup> asList()
