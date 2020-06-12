@@ -58,10 +58,7 @@
     <Compile Include="Common\Interface\ISetup.cs" />
     <Compile Include="Common\Interface\IUnit.cs" />
     <Compile Include="Common\Interface\IUnitIterator.cs" />
-    <Compile Include="ConnectionHandler\OLD\AsyncListener.cs" />
     <Compile Include="ConnectionHandler\MobileConnectionHandler.cs" />
-    <Compile Include="ConnectionHandler\OLD\StateObject.cs" />
-    <Compile Include="ConnectionHandler\OLD\TCPConnection.cs" />
     <Compile Include="ConnectionHandler\UDPConnection.cs" />
     <Compile Include="ConnectionHandler\UDPIncoming.cs" />
     <Compile Include="ConnectionHandler\UDPOutgoing.cs" />
