@@ -18,19 +18,19 @@ namespace PositioningServer.Common.Data
                 this.id = id;
             }
 
-            public override void coordinate(Coordinate coordinate)
+            public override void addCoordinate(Coordinate coordinate)
             {
                 anchorCoordinate = coordinate;
+            }
+            
+            internal override int size()
+            {
+                return 1;
             }
 
             internal override Coordinate getCoordinate(int i)
             {
                 return anchorCoordinate;
-            }
-
-            internal override int size()
-            {
-                return 1;
             }
         }
     }

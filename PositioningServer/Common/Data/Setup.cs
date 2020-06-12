@@ -11,8 +11,8 @@ namespace PositioningServer.Common.Data
     {
         public class Setup : ISetup
         {
-            public string id;
-            public DateTime lastUsed { get; set; }
+            private string id;
+            private DateTime lastUsed;
 
             private List<IUnit> nodesRaw = new List<IUnit>();
             private List<IUnit> nodesClean = new List<IUnit>();
@@ -45,12 +45,12 @@ namespace PositioningServer.Common.Data
                 nodesRaw.Add((Unit)unit);
             }
 
-            public void addCleanNode(Unit unit)
+            public void addCleanNode(IUnit unit)
             {
                 nodesClean.Add(unit);
             }
 
-            public void addAnchor(Unit unit)
+            public void addAnchor(IUnit unit)
             {
                 anchors.Add(unit);
             }
@@ -72,7 +72,12 @@ namespace PositioningServer.Common.Data
                 }
             }
 
-            DateTime ISetup.lastUsed()
+            void ISetup.lastUsed(DateTime newTime)
+            {
+                this.lastUsed = newTime;
+            }
+
+            DateTime ISetup.getLastUsed()
             {
                 return lastUsed;
             }

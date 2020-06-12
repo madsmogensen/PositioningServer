@@ -8,9 +8,13 @@ namespace PositioningServer.Common.Interface
 {
     public interface ISetup
     {
-        DateTime lastUsed();
+        void lastUsed(DateTime newTime);
+        DateTime getLastUsed();
         string id();
         void addRawNode(IUnit newNode);
+        void addCleanNode(IUnit newNode);
+        void addAnchor(IUnit newNode);
+        IUnitIterator getIterator(string list);
 
 
     }

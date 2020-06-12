@@ -10,14 +10,11 @@ namespace PositioningServer.Common.Data
 {
     public class Client
     {
-
         public IPEndPoint connection { get; set; }
-        //public Setup setup { get; set; } = null;
         public string setup { get; set; } = "";
         public string request { get; set; } = "";
         public DateTime lastUpdate { get; set; } = DateTime.Now;
-
-        List<IUnitIterator> iterators = new List<IUnitIterator>();
+        private List<IUnitIterator> iterators = new List<IUnitIterator>();
 
 
         public Client(IPEndPoint connection)

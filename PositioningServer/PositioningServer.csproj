@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientConnection\MobileConnectionHandler.cs" />
+    <Compile Include="ClientConnection\UDPIncoming.cs" />
+    <Compile Include="ClientConnection\UDPOutgoing.cs" />
+    <Compile Include="ClientConnection\UDPServer.cs" />
     <Compile Include="Common\Data\Anchor.cs" />
     <Compile Include="Common\Data\Client.cs" />
     <Compile Include="Common\Data\Coordinate.cs" />

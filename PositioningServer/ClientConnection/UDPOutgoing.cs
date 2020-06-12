@@ -14,8 +14,8 @@ namespace PositioningServer.ConnectionHandler
     class UDPOutgoing
     {
 
-        long updateStarted;
-        long timeElapsed;
+        private long updateStarted;
+        private long timeElapsed;
 
         public UDPOutgoing()
         {
@@ -66,17 +66,17 @@ namespace PositioningServer.ConnectionHandler
         }
     }
 
-    public class SenderThread
+    internal class SenderThread
     {
-        Client client;
-        Socket sendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+        private Client client;
+        private Socket sendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
         public SenderThread(Client client)
         {
             this.client = client;
         }
 
-        public void send()
+        internal void send()
         {
             IPEndPoint endPoint = client.connection;
             if (endPoint == null) { /*printDebug(client);*/ return; } //skip debugging clients where endPoint is null

@@ -10,8 +10,6 @@ namespace PositioningServer.Common.Data
     {
         protected class Node : Unit
         {
-
-
             private List<Coordinate> coordinates { get; set; } = new List<Coordinate>();
 
             public Node(string id)
@@ -19,7 +17,7 @@ namespace PositioningServer.Common.Data
                 this.id = id;
             }
 
-            public override void coordinate(Coordinate coordinate)
+            public override void addCoordinate(Coordinate coordinate)
             {
                 coordinates.Add(coordinate);
             }

@@ -10,11 +10,6 @@ namespace PositioningServer.Common.Data
     {
         private class UnitFactory
         {
-            public UnitFactory()
-            {
-
-            }
-
             public Unit makeUnit(string id)
             {
                 switch (id[1])

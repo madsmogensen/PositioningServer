@@ -22,7 +22,7 @@ namespace PositioningServer.DBHandler
             {
                 if (client.setup == null || client.request != client.setup)
                 {
-                    lookup(client, setupFacade);
+                    lookupClient(client, setupFacade);
                 }
             }
 
@@ -30,7 +30,7 @@ namespace PositioningServer.DBHandler
             List<ISetup> setupsToRemove = new List<ISetup>(); 
             foreach (ISetup setup in setupFacade.getSetups())
             {
-                if (DateTime.Now.Subtract(setup.lastUsed()).TotalHours >= 1)
+                if (DateTime.Now.Subtract(setup.getLastUsed()).TotalHours >= 1)
                 {
                     setupsToRemove.Add(setup);
                 }
@@ -41,11 +41,11 @@ namespace PositioningServer.DBHandler
             }
         }
 
-        private void lookup(Client client, SetupFacade setupFacade)
+        private void lookupClient(Client client, SetupFacade setupFacade)
         {
             //simple lookup; setup already loaded in memory
-            client.setup = setupFacade.getSetup(client.request).id;
-            setupFacade.getSetup(client.setup).lastUsed = DateTime.Now;
+            client.setup = setupFacade.getSetup(client.request).id();
+            setupFacade.getSetup(client.setup).lastUsed(DateTime.Now);
         }
     }
 }

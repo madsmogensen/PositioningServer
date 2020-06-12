@@ -11,7 +11,7 @@ namespace PositioningServer.ConnectionHandler
 {
     public class UDPIncoming
     {
-        List<Client> clientRequests = new List<Client>();
+        private List<Client> clientRequests = new List<Client>();
 
         public UDPIncoming()
         {
@@ -20,7 +20,7 @@ namespace PositioningServer.ConnectionHandler
             t.Start();
         }
 
-
+        //Currently setupFacade is unused, because getting new setup data from clients is unsupported
         public void update(List<Client> clients, SetupFacade setupFacade)
         {
             //Handle client requests
@@ -44,10 +44,10 @@ namespace PositioningServer.ConnectionHandler
         }
     }
 
-    public class ListenerThread
+    internal class ListenerThread
     {
 
-        List<Client> clientRequests;
+        private List<Client> clientRequests;
 
         private const int listenPort = 11000;
         private UdpClient listener = new UdpClient(listenPort);
@@ -60,7 +60,7 @@ namespace PositioningServer.ConnectionHandler
             this.clientRequests = clientRequests;
         }
 
-        public void listen()
+        internal void listen()
         {
             try
             {

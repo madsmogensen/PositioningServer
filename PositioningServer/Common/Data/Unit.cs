@@ -9,16 +9,16 @@ namespace PositioningServer.Common.Data
 {
     public partial class SetupFacade
     {
-        public abstract class Unit :IUnit
+        public abstract class Unit : IUnit
         {
             protected string id;
 
-            public abstract void coordinate(Coordinate coordinate);
-
             internal abstract int size();
-
+            
             internal abstract Coordinate getCoordinate(int i);
 
+            public abstract void addCoordinate(Coordinate coordinate);
+            
             internal string getId()
             {
                 return id;

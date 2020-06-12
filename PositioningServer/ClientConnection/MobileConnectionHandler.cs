@@ -9,12 +9,7 @@ namespace PositioningServer.ConnectionHandler
     class MobileConnectionHandler : IConnectionHandler
     {
 
-        UDPConnection server;
-
-        public MobileConnectionHandler()
-        {
-            server = new UDPConnection();
-        }
+        private UDPConnection server = new UDPConnection();
 
         public void update(List<Client> clients, SetupFacade setupFacade)
         {

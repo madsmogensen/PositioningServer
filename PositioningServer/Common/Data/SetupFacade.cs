@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PositioningServer.Common.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ namespace PositioningServer.Common.Data
             }
         }
 
-        public Setup getSetup(string id)
+        public ISetup getSetup(string id)
         {
             return setups.getSetup(id);
         }
@@ -39,15 +40,15 @@ namespace PositioningServer.Common.Data
             setups.remove(id);
         }
 
-        private void addRawNode(string setupId, Unit node)
+        public void addRawNode(string setupId, Unit node)
         {
             getSetup(setupId).addRawNode(node);
         }
-        private void addCleanNode(string setupId, Unit node)
+        public void addCleanNode(string setupId, Unit node)
         {
             getSetup(setupId).addCleanNode(node);
         }
-        private void addAnchor(string setupId, Unit anchor)
+        public void addAnchor(string setupId, Unit anchor)
         {
             getSetup(setupId).addAnchor(anchor);
         }
@@ -60,7 +61,7 @@ namespace PositioningServer.Common.Data
         public void mergeSetups(string id, Setup otherSetup)
         {
             if (otherSetup == null) { return; }
-            Setup original = getSetup(id);
+            Setup original = (Setup)getSetup(id);
             original.mergeSetup(otherSetup);
         }
 
