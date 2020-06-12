@@ -10,11 +10,10 @@ namespace PositioningServer.Common.Data
     {
         private class SetupList
         {
-
+            
             private Dictionary<string, Setup> setups = new Dictionary<String, Setup>();
 
             private static readonly SetupList instance = new SetupList();
-
 
             private SetupList() { }
             static SetupList() { }
