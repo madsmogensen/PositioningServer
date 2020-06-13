@@ -11,5 +11,6 @@ namespace PositioningServer.Common.Interface
         List<IUnit> getUnits();
         int getIndex();
         void next();
+        void addUnit(IUnit unit);
     }
 }

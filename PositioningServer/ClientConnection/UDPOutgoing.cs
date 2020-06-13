@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace PositioningServer.ConnectionHandler
 {
-    class UDPOutgoing
+    public class UDPOutgoing
     {
 
         private long updateStarted;
@@ -19,13 +19,13 @@ namespace PositioningServer.ConnectionHandler
 
         public UDPOutgoing()
         {
-            IPEndPoint test = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 11000);
+            /*IPEndPoint test = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 11000);
             Client testClient = new Client(test);
             testClient.setup = "test";
             testClient.request = "CLIENT;REQUEST:From File";
             SenderThread sender = new SenderThread(testClient);
             Thread t = new Thread(new ThreadStart(sender.send));
-            t.Start();
+            t.Start();*/
         }
 
 
@@ -62,6 +62,7 @@ namespace PositioningServer.ConnectionHandler
                     Console.WriteLine("Time up, breaking while " +  timeElapsed);
                     break;
                 }
+                Console.WriteLine("Time is not up yet " + timeElapsed);
             }
         }
     }

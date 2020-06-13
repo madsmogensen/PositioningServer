@@ -45,6 +45,11 @@ namespace PositioningServer.Common.Data
                 }
                 return units[index];
             }
+
+            public void addUnit(IUnit unit)
+            {
+                units.Add(unit);
+            }
         }
     }
 }

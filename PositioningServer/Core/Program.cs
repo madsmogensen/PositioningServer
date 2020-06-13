@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,7 +31,7 @@ namespace PositioningServer
             }
         }
 
-        private static void update()
+        public static void update()
         {
             foreach (IConnectionHandler service in connectionHandlers)
             {
@@ -60,6 +61,35 @@ namespace PositioningServer
                 .Where(x => interfaceType.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
                 .Select(x => Activator.CreateInstance(x) as IDatabaseHandler);
             return all.ToArray();
+        }
+        
+        public static IConnectionHandler[] getConnectionHandlers()
+        {
+            return connectionHandlers;
+        }
+
+        public static void setConnectionHandlers(IConnectionHandler[] connectionHandlers)
+        {
+            Program.connectionHandlers = connectionHandlers;
+        }
+        public static IDatabaseHandler[] getDatabaseHandlers()
+        {
+            return databaseHandlers;
+        }
+
+        public static void setDatabaseHandlers(IDatabaseHandler[] databaseHandlers)
+        {
+            Program.databaseHandlers = databaseHandlers;
+        }
+
+        public static List<Client> getClients()
+        {
+            return clients;
+        }
+
+        public static SetupFacade getSetupFacade()
+        {
+            return setupFacade;
         }
     }
 }

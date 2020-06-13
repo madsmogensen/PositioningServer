@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PositioningServer.ConnectionHandler
 {
-    class UDPConnection
+    public class UDPConnection
     {
 
         private UDPIncoming incoming = new UDPIncoming();

@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace PositioningServer.ConnectionHandler
 {
-    class MobileConnectionHandler : IConnectionHandler
+    public class MobileConnectionHandler : IConnectionHandler
     {
         private UDPConnection server = new UDPConnection();
 
