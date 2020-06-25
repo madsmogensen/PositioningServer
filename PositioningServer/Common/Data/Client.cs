@@ -40,8 +40,9 @@ namespace PositioningServer.Common.Data
 
         public List<IUnitIterator> getSetup()
         {
-            if (iterators.Count == 0)
+            if (iterators.Count == 0 && setup != "")
             {
+                if (SetupFacade.Instance.getSetup(setup) == null) { return null; }
                 iterators.Add(SetupFacade.Instance.getSetup(setup).getIterator("raw"));
                 iterators.Add(SetupFacade.Instance.getSetup(setup).getIterator("clean"));
                 iterators.Add(SetupFacade.Instance.getSetup(setup).getIterator("anchors"));

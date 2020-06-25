@@ -1,6 +1,7 @@
 ﻿using PositioningServer.Common.Interface;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,19 +31,34 @@ namespace PositioningServer.Common.Data
                 switch (list.ToLower())
                 {
                     case "clean":
-                        return new UnitIterator(nodesClean);
+                        IUnitIterator clean = new UnitIterator(nodesClean);
+                        //Console.WriteLine("clean iterator count in setup class: " + clean.getUnits().Count);
+                        return clean;
                     case "anchor":
                     case "anchors":
-                        return new UnitIterator(anchors);
+                        IUnitIterator itAnchors = new UnitIterator(anchors);
+                        //Console.WriteLine("anchors iterator count in setup class: " + itAnchors.getUnits().Count);
+                        return itAnchors;
                     case "raw":
                     default:
-                        return new UnitIterator(nodesRaw);
+                        IUnitIterator raw = new UnitIterator(nodesRaw);
+                        Console.WriteLine("raw iterator count in setup class: " + raw.getUnits().Count);
+                        return raw;
                 }
             }
 
             public void addRawNode(IUnit unit)
             {
+                foreach (IUnit currentUnit in nodesRaw)
+                {
+                    if (currentUnit.getId().Equals(unit.getId()))
+                    {
+                        currentUnit.addCoordinate(unit.getCoordinate(0));
+                        return;
+                    }
+                }
                 nodesRaw.Add((Unit)unit);
+                Console.WriteLine("rawNodes list is now size: " + nodesRaw.Count);
             }
 
             public void addCleanNode(IUnit unit)

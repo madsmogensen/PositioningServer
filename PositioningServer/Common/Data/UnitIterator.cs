@@ -12,7 +12,8 @@ namespace PositioningServer.Common.Data
         private class UnitIterator : IUnitIterator
         {
             private List<IUnit> units;
-            private int index = Int32.MaxValue;
+            //private int index = Int32.MaxValue;
+            private int index = 0;
 
             public UnitIterator(List<IUnit> list)
             {
@@ -26,10 +27,10 @@ namespace PositioningServer.Common.Data
 
             public void next()
             {
-                if (index + 1 > units.Count)
-                {
+                //if (index + 1 > units.Count)
+                //{
                     index++;
-                }
+                //}
             }
 
             public int getIndex()

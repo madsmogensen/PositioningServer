@@ -31,7 +31,7 @@ namespace PositioningServer.ConnectionHandler
 
         public void update(List<Client> clients)
         {
-            updateStarted = DateTime.Now.Ticks/10000; //ticks to millis
+            updateStarted = DateTime.Now.Ticks / 10000; //ticks to millis
             timeElapsed = 0;
             List<Thread> threadPool = new List<Thread>();
             foreach (Client client in clients)
@@ -45,24 +45,23 @@ namespace PositioningServer.ConnectionHandler
             //Blocking untill all threads are closed
             while (threadPool.Count > 0)
             {
-                for (int i = threadPool.Count-1; i >= 0; i--)
+                for (int i = threadPool.Count - 1; i >= 0; i--)
                 {
                     if (threadPool[i].ThreadState.Equals(ThreadState.Stopped))
                     {
                         threadPool.RemoveAt(i);
                     }
                 }
-                timeElapsed = (DateTime.Now.Ticks/10000) - updateStarted;
+                timeElapsed = (DateTime.Now.Ticks / 10000) - updateStarted;
                 if (timeElapsed > 5000) //if blocked for more than 5 seconds, break
                 {
                     foreach (Thread t in threadPool)
                     {
                         t.Abort();
                     }
-                    Console.WriteLine("Time up, breaking while " +  timeElapsed);
+                    Console.WriteLine("Time up, breaking while " + timeElapsed);
                     break;
                 }
-                Console.WriteLine("Time is not up yet " + timeElapsed);
             }
         }
     }
@@ -81,29 +80,48 @@ namespace PositioningServer.ConnectionHandler
         {
             IPEndPoint endPoint = client.connection;
             if (endPoint == null) { /*printDebug(client);*/ return; } //skip debugging clients where endPoint is null
-            if (client.setup == "") { return; } //skip clients without a setup
 
             List<byte[]> dataToSend = new List<byte[]>();
 
-            foreach (IUnitIterator iterator in client.getSetup())
+            if (client.request.Equals("GETAVAILABLESETUPS"))
             {
-                foreach (IUnit unit in iterator.getUnits())
+                Console.WriteLine("getSetups().count: " + SetupFacade.Instance.getSetups().Count);
+                foreach (ISetup setup in SetupFacade.Instance.getSetups())
                 {
-                    for (int i = iterator.getIndex(); i < unit.size(); i++)
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append("SETUP;");
+                    sb.Append(setup.id());
+                    byte[] coordinateBuffer = Encoding.ASCII.GetBytes(sb.ToString());
+                    Console.WriteLine("data added to buffer " + sb.ToString());
+                    dataToSend.Add(coordinateBuffer);
+                }
+                client.request = "";
+            }
+            else
+            {
+                //if (client.setup == "") { return; } //skip clients without a setup
+                foreach (IUnitIterator iterator in client.getSetup())
+                {
+                    foreach (IUnit unit in iterator.getUnits())
                     {
-                        iterator.next();
-                        Coordinate nextCoordinate = unit.getCoordinate(i);
-                        StringBuilder sb = new StringBuilder();
-                        sb.Append(unit.getId() + ";");
-                        sb.Append(nextCoordinate.x + ";");
-                        sb.Append(nextCoordinate.y + ";");
-                        sb.Append(nextCoordinate.z + ";");
-                        sb.Append(nextCoordinate.dateTime.ToString().Replace(".", ":") + ".");
-                        for (int j = nextCoordinate.dateTime.Millisecond.ToString().Length; j < 3; j++) { sb.Append("0"); }
-                        sb.Append(nextCoordinate.dateTime.Millisecond);
-                        //Console.WriteLine(i + " - " + sb.ToString());
-                        byte[] coordinateBuffer = Encoding.ASCII.GetBytes(sb.ToString());
-                        dataToSend.Add(coordinateBuffer);
+                        for (int i = iterator.getIndex(); i < unit.size(); i++)
+                        {
+                            
+                            iterator.next();
+                            Coordinate nextCoordinate = unit.getCoordinate(i);
+                            StringBuilder sb = new StringBuilder();
+                            sb.Append("DATA;");
+                            sb.Append(unit.getId() + ";");
+                            sb.Append(nextCoordinate.x + ";");
+                            sb.Append(nextCoordinate.y + ";");
+                            sb.Append(nextCoordinate.z + ";");
+                            sb.Append(nextCoordinate.dateTime.ToString().Replace(".", ":") + ".");
+                            for (int j = nextCoordinate.dateTime.Millisecond.ToString().Length; j < 3; j++) { sb.Append("0"); }
+                            sb.Append(nextCoordinate.dateTime.Millisecond);
+                            byte[] coordinateBuffer = Encoding.ASCII.GetBytes(sb.ToString());
+                            dataToSend.Add(coordinateBuffer);
+                            Console.WriteLine("Sent data: " + sb.ToString());
+                        }
                     }
                 }
             }
@@ -112,10 +130,8 @@ namespace PositioningServer.ConnectionHandler
             {
                 try
                 {
-                    //ONLY FOR DEBUGGNING; DELETE LINE LATER
-                    //endPoint.Port = 11000;
+                    endPoint.Port = 11005;
                     sendingSocket.SendTo(sendBuffer, endPoint);
-                    //Console.WriteLine("Sent something to " + endPoint);
                 }
                 catch (Exception e)
                 {
@@ -125,5 +141,5 @@ namespace PositioningServer.ConnectionHandler
             }
             sendingSocket.Close();
         }
-    } 
+    }
 }

@@ -24,21 +24,22 @@ namespace PositioningServer.ConnectionHandler
         public void update(List<Client> clients, SetupFacade setupFacade)
         {
             //Handle client requests
-            foreach (Client request in clientRequests)
+            foreach (Client clientRequest in clientRequests)
             {
                 bool consumed = false;
                 //Compare if client request is already connected in clients
                 foreach (Client client in clients)
                 {
-                    if (request.connection.Equals(client.connection))
+                    if (clientRequest.connection.Address.Equals(client.connection.Address))
                     {
-                        client.request = request.request;
-                        client.lastUpdate = request.lastUpdate;
+                        client.request = clientRequest.request;
+                        client.lastUpdate = clientRequest.lastUpdate;
+                        client.setup = client.request;
                         consumed = true;
                         break;
                     }
                 }
-                if (!consumed) { clients.Add(request); Console.WriteLine("New client connected " + request.connection); }
+                if (!consumed) { clients.Add(clientRequest); Console.WriteLine("New client connected " + clientRequest.connection); }
             }
             clientRequests.Clear();
         }
@@ -64,13 +65,13 @@ namespace PositioningServer.ConnectionHandler
         {
             try
             {
-                Console.WriteLine("Startet listening on " + groupEP.Address);
+                Console.WriteLine("Startet listening");
                 while (true)
                 {
                     receiveByteArray = listener.Receive(ref groupEP);
-                    Console.WriteLine("Received a broadcast from {0}", groupEP.ToString());
                     receivedData = Encoding.ASCII.GetString(receiveByteArray, 0, receiveByteArray.Length);
-                    Console.WriteLine(receivedData);
+                    Console.WriteLine("Received a broadcast from {0} | " + receivedData, groupEP.ToString());
+                    //Console.WriteLine(receivedData);
                     handleIncoming(groupEP, receivedData);
                 }
             }
@@ -113,10 +114,13 @@ namespace PositioningServer.ConnectionHandler
                 {
                     case "REQUEST":
                         newClient.request = value;
-                        
+                        newClient.setup = value;
+                        break;
+                    case "GETAVAILABLESETUPS":
+                        newClient.request = key;
                         break;
                     default:
-                        Console.WriteLine("Couldn't recognize the request from " + clientEndPoint + ": " + key);
+                        Console.WriteLine("Couldn't recognize the Client request from " + clientEndPoint + ": " + key);
                         break;
                 }
             }

@@ -3,6 +3,7 @@ using PositioningServer.Common.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,13 +38,16 @@ namespace PositioningServer.DBHandler
             }
             foreach (ISetup setup in setupsToRemove)
             {
-                setupFacade.removeSetup(setup.id());
+                //setupFacade.removeSetup(setup.id());
             }
         }
 
         private void lookupClient(Client client, SetupFacade setupFacade)
         {
             //simple lookup; setup already loaded in memory
+            if (client.setup == null) { return; }
+            if (client.request == null) { return; }
+            if (setupFacade.getSetup(client.request) == null) { return; }
             client.setup = setupFacade.getSetup(client.request).id();
             setupFacade.getSetup(client.setup).lastUsed(DateTime.Now);
         }

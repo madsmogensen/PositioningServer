@@ -19,12 +19,6 @@ namespace PositioningServer
             
         static void Main(string[] args)
         {
-            //Test case
-            IPEndPoint testEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 11000);
-            Client testClient = new Client(testEndPoint);
-            testClient.request = "From File";
-            clients.Add(testClient);
-
             while (true)
             {
                 update();

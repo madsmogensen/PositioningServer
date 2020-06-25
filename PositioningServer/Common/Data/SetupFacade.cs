@@ -30,6 +30,11 @@ namespace PositioningServer.Common.Data
             return setups.getSetup(id);
         }
 
+        public void newSetup(string id)
+        {
+            setups.addSetup(id);
+        }
+
         public List<Setup> getSetups()
         {
             return setups.asList();

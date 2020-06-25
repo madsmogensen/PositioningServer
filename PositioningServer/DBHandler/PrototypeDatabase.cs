@@ -17,6 +17,8 @@ namespace PositioningServer.DBHandler
             using(var reader = new StreamReader(@"C:\Users\mega-\Source\Repos\madsmogensen\PositioningServer\PositioningServer\DBHandler\uwb_GoCart.csv"))
             {
                 if (!reader.EndOfStream) { reader.ReadLine(); } //skip header
+
+                facade.newSetup("From File");
                 ISetup setup = facade.getSetup("From File");
                 
                 while (!reader.EndOfStream)
@@ -45,7 +47,6 @@ namespace PositioningServer.DBHandler
                     newNode.addCoordinate(coordinate);
                     
                     setup.addRawNode(newNode);
-                    
                 }
             }
         }

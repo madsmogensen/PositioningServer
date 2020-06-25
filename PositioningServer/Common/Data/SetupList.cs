@@ -29,9 +29,10 @@ namespace PositioningServer.Common.Data
             {
                 if (!setups.ContainsKey(id))
                 {
-                    Setup newSetup = new Setup(id);
-                    setups.Add(id, newSetup);
-                }
+                    return null;
+                    //Setup newSetup = new Setup(id);
+                    //setups.Add(id, newSetup);
+                }/*
                 else
                 {
                     if (setups[id] == null)
@@ -39,10 +40,16 @@ namespace PositioningServer.Common.Data
                         Setup newSetup = new Setup(id);
                         setups.Add(id, newSetup);
                     }
-                }
+                }*/
                 return setups[id];
             }
-            
+
+            public void addSetup(string id)
+            {
+                Setup newSetup = new Setup(id);
+                setups.Add(id, newSetup);
+            }
+
             public void remove(string id)
             {
                 setups.Remove(id);

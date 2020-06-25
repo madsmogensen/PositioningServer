@@ -23,7 +23,8 @@ namespace PositioningServerTests.ClientConnection
             testClient.setup = "test";
             testClient.request = "CLIENT;REQUEST:From File";
             Mock<IUnitIterator> overloadedIterator = new Mock<IUnitIterator>();
-            for (int i = 0; i <= 1000000; i++)
+            //for (int i = 0; i <= 1000000; i++)
+            for (int i = 0; i <= 1000; i++)
             {
                 overloadedIterator.Object.addUnit(SetupFacade.Instance.makeUnit("0x" + i));
             }
